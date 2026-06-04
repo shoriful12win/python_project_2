@@ -1,0 +1,55 @@
+import random
+import string
+
+passwords = {}
+
+try:
+    with open ("password.txt",'r') as file:
+        for line in file:
+            website ,pwd = line.strip().split(":")
+            passwords[website]=pwd
+
+except: pass  
+
+def password_generate ():
+    chars = string.ascii_letters + string.digits + "!@#$%^&*"
+    password = "".join(random.choice(chars) for _ in range(8))
+    return password
+
+
+while True:
+    print("\n----Password Managment System----")
+    print("1. Save")
+    print("2. View Password")
+    print("3. Generate Password")
+    print("4. Exit ")
+
+    choice = input("Enter Your Choice:")
+
+    if choice == "1":
+        site = input("Entere the website name:")
+        pwd = input("enter the password:")
+
+        passwords[site] = pwd
+
+        with open ("password.txt","a") as file:
+            file.write(f"{site}:{pwd}\n")
+
+        print("Saved!")        
+
+    elif choice == "2":
+        if not passwords:
+            print("No data found")
+        else:
+            for site,pwd in passwords.items():
+                print(site,",",pwd)    
+
+    elif choice=="3":
+        print("Generated password==",password_generate())
+
+    elif choice =="4":
+        print("OK BYE")
+        break
+  
+    else:
+        print("INvalid request")
